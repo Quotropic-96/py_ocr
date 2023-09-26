@@ -86,12 +86,66 @@ def load_from_json(filename):
     with open(filepath, 'r') as f:
         return json.load(f)
 
+def extract_rows(text_annotations):
+    # Sort by top-left Y-coordinate of bounding boxes to get them in order
+    sorted_annotations = sorted(
+        text_annotations[1:], key=lambda x: x['boundingPoly']['vertices'][0]['y'])
+
+    rows = []
+    current_row = [sorted_annotations[0]]
+
+    for i in range(1, len(sorted_annotations)):
+        current_y = sorted_annotations[i]['boundingPoly']['vertices'][0]['y']
+        previous_y = sorted_annotations[i - 1]['boundingPoly']['vertices'][0]['y']
+
+        if abs(current_y - previous_y) < 10:  # Threshold for considering within the same row
+            current_row.append(sorted_annotations[i])
+        else:
+            rows.append(current_row)
+            current_row = [sorted_annotations[i]]
+
+    rows.append(current_row)  # Add the last row
+    return rows
+
+
+def extract_columns(rows):
+    table = []
+
+    for row in rows:
+        # Sort the items in the current row based on X-coordinates
+        row.sort(key=lambda item: item['boundingPoly']['vertices'][0]['x'])
+
+        current_row_data = []
+        current_column_data = row[0]['description']
+        prev_x = row[0]['boundingPoly']['vertices'][1]['x']  # End X-coordinate of the bounding box
+
+        for item in row[1:]:
+            current_x = item['boundingPoly']['vertices'][0]['x']  # Start X-coordinate of the bounding box
+            if current_x - prev_x > 40:  # Threshold for column gap, adjust as necessary
+                current_row_data.append(current_column_data.strip())
+                current_column_data = item['description']
+            else:
+                current_column_data += ' ' + item['description']
+            prev_x = item['boundingPoly']['vertices'][1]['x']
+
+        current_row_data.append(current_column_data.strip())
+        table.append(current_row_data)
+
+    return table
 
 # Main execution
 if __name__ == "__main__":
     access_token = get_access_token(CREDENTIALS_PATH)
-    annotations = annotate_image('./images/test.png', access_token)
-    
-    for annotation in annotations:
-        print(annotation['description'])
+    # annotations = annotate_image('./images/test.png', access_token)
+    response_data = load_from_json('response_data.json')
 
+    annotations = response_data['responses'][0]['textAnnotations'][1:]  # We skip the first item, as it's a summary.
+    # Sort by Y-coordinate
+    annotations.sort(key=lambda x: x['boundingPoly']['vertices'][0]['y'])
+
+    rows = extract_rows(annotations)
+
+    table = extract_columns(rows)
+
+    for cell in table:
+        print(cell)
