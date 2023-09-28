@@ -41,13 +41,34 @@ def clean_dataframe(df, filename):
             logger.error(f"File: {filename} | Line: {line_number} | Error parsing date '{cell_value}': {e}")
             return 0
         
-    def parse_object(cell_value):
-        return False
+    def parse_object(cell_value,idx):
+        """
+        Parses the value in the third column: retains only letters and replaces 'Idem' with the value of the previous row.
+        """
+        try:
+            if isinstance(cell_value, str):  # Check if the value is a string
+                # Remove characters that aren't Spanish letters
+                clean_value = ''.join(c for c in cell_value if c in LETTERS_AND_SPACE).strip()
+                
+                # If the value contains "Idem" or "ldem" and there is a previous row
+                if ("Idem" in clean_value  or "ldem" in clean_value) and idx > 0:
+                    return ''.join(c for c in df.iloc[idx - 1, 2] if c in LETTERS_AND_SPACE).strip()
+                else:
+                    return clean_value
+        except Exception as e:
+            line_number = idx + 2  # Adjusting for 0-based index and header
+            logger.error(f"File: {filename} | Line: {line_number} | Error parsing object '{cell_value}': {e}")
+        return cell_value  # Return the original value if not properly parsed
+
     # Cleaning the name column
     df[df.columns[0]] = df[df.columns[0]].apply(lambda x: parse_name(x, df.index[df[df.columns[0]] == x].tolist()[0]))
 
     # Cleaning the date column
     df[df.columns[1]] = df[df.columns[1]].apply(lambda x: parse_date(x, df.index[df[df.columns[1]] == x].tolist()[0]))
+
+    # Parsing the object column
+    df[df.columns[2]] = df[df.columns[2]].apply(lambda x: parse_object(x, df.index[df[df.columns[2]] == x].tolist()[0]))
+
 
     return df
 
