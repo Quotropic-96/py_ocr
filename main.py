@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def clean_dataframe(df, filename):
+    cleaned_objects = []
     
     def parse_name(cell_value, idx):
       """
@@ -41,20 +42,25 @@ def clean_dataframe(df, filename):
             logger.error(f"File: {filename} | Line: {line_number} | Error parsing date '{cell_value}': {e}")
             return 0
         
-    def parse_object(cell_value,idx):
+    def parse_object(cell_value, idx):
         """
         Parses the value in the third column: retains only letters and replaces 'Idem' with the value of the previous row.
         """
         try:
             if isinstance(cell_value, str):  # Check if the value is a string
-                # Remove characters that aren't Spanish letters
-                clean_value = ''.join(c for c in cell_value if c in LETTERS_AND_SPACE).strip()
                 
                 # If the value contains "Idem" or "ldem" and there is a previous row
-                if ("Idem" in clean_value  or "ldem" in clean_value) and idx > 0:
-                    return ''.join(c for c in df.iloc[idx - 1, 2] if c in LETTERS_AND_SPACE).strip()
+                if ("Idem" in cell_value or "ldem" in cell_value) and idx > 0:
+                    last_valid_value = cleaned_objects[-2] if cleaned_objects[-1] == 'Idem' else cleaned_objects[-1]
+                    cleaned_objects.append(last_valid_value)
+                    return last_valid_value
+            
                 else:
+                    # Remove characters that aren't Spanish letters
+                    clean_value = ''.join(c for c in cell_value if c in LETTERS_AND_SPACE).strip()
+                    cleaned_objects.append(clean_value)
                     return clean_value
+                
         except Exception as e:
             line_number = idx + 2  # Adjusting for 0-based index and header
             logger.error(f"File: {filename} | Line: {line_number} | Error parsing object '{cell_value}': {e}")
