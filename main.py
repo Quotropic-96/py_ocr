@@ -4,6 +4,7 @@ import logging
 
 # Checking variables
 LETTERS_AND_SPACE = "abcdefghijklmnopqrstuvwxyzáéíóúñüABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑÜ "
+ALLOWED_CHARS_PLACE = LETTERS_AND_SPACE + '()'
 
 # Initialize the logger
 logging.basicConfig(level=logging.ERROR, format='%(message)s')
@@ -15,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 def clean_dataframe(df, filename):
     cleaned_objects = []
+    cleaned_places = []
     
     def parse_name(cell_value, idx):
       """
@@ -66,6 +68,38 @@ def clean_dataframe(df, filename):
             logger.error(f"File: {filename} | Line: {line_number} | Error parsing object '{cell_value}': {e}")
         return cell_value  # Return the original value if not properly parsed
 
+    def parse_place(cell_value, idx):
+        """
+        Parses the value in the fourth column: 
+        1. Retains only letters and replaces 'Idem' with the value of the previous row.
+        2. Retains only letters.
+        3. Capitalizes each word.
+        """
+        try:
+            if isinstance(cell_value, str):  # Check if the value is a string
+                    
+                # If the value contains "Idem" or "ldem" and there is a previous row
+                if ("Idem" in cell_value or "ldem" in cell_value) and idx > 0:
+                    # If the last value in cleaned_places is an 'Idem', use the value before that, else use the last value
+                    last_valid_value = cleaned_places[-2] if cleaned_places[-1] == 'Idem' else cleaned_places[-1]
+                    cleaned_places.append(last_valid_value)
+                    return last_valid_value
+                
+                else:
+                    # Remove characters that aren't in ALLOWED_CHARS_PLACE
+                    clean_value = ''.join(c for c in cell_value if c in ALLOWED_CHARS_PLACE).strip()
+                    # Capitalize each word in the string
+                    clean_value = ' '.join([word.capitalize() for word in clean_value.split()])
+                    cleaned_places.append(clean_value)  # Store the cleaned value
+                    return clean_value
+                    
+        except Exception as e:
+            line_number = idx + 2  # Adjusting for 0-based index and header
+            logger.error(f"File: {filename} | Line: {line_number} | Error parsing place '{cell_value}': {e}")
+        
+        cleaned_places.append(cell_value)  # If there's an error, store the original value
+        return cell_value
+
     # Cleaning the name column
     df[df.columns[0]] = df[df.columns[0]].apply(lambda x: parse_name(x, df.index[df[df.columns[0]] == x].tolist()[0]))
 
@@ -74,6 +108,10 @@ def clean_dataframe(df, filename):
 
     # Parsing the object column
     df[df.columns[2]] = df[df.columns[2]].apply(lambda x: parse_object(x, df.index[df[df.columns[2]] == x].tolist()[0]))
+
+    # Parsing the place column
+    df[df.columns[3]] = df[df.columns[3]].apply(lambda x: parse_place(x, df.index[df[df.columns[3]] == x].tolist()[0]))
+
 
 
     return df
