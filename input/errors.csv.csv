@@ -1,16 +1,16 @@
-NOMBRE;FECHA;OBJETO;LUGAR;PROVINCIA;S. Ordinarios;S. De mérito;S. Honorarios;S.Protectores;Socios Totales
-Asociación Católica de Obreros......... , .........;1888;Acción católica.. ·.. '...............;VITORIA ... …Gasteiz;ÁLAVA;520;;;108;628
-Sociedad de Obreros Canteros y Marmolistas .....'.;1899;Mejorar las condiciones del trabajo.;Idem ...........;ÁLAVA;99;;;;99
-Sociedad de Obreros Metalúrgicos ............... '.;1899;Idem;Idem ...........;ÁLAVA;100;;;;100
-Sociedad de Obreros Panaderos...................;1901;Idem;Idem ...........;ÁLAVA;45;;;;45
-Sociedad de Obreros Albañiles. .. : ...............;1903;Idem;Idem ...........;ÁLAVA;40;;;;40
-Sociedad de Obreros Canteros Mamposteros... , ...;19aa03;Idem…09uf;Idem ...........;ÁLAVA;30;;;;30
-Sociedad de Obreros Peones.... , ................ '.;1903;Idem;Idem ...........;ÁLAVA;60;;;;60
-"Sociedad Tipográfica.......... , ........ "" .......";1904;Idem;Idem ...........;ÁLAVA;34;;;;34
-Sociedad de Peluqueros Barberos.................;1904;Idem;Idem ...........;ÁLAVA;27;;;;27
-Sociedad de Obreros Carpinteros .................;1904;Idem………………………;Idem ...........;;16;;;;16
-Sociedad de Obreros Zapateros.. ........ '*' .......;1904;Idem;Idem ...........;ÁLAVA;20;;;;20
-Sociedad de socorro á los enfermos de la Fábrica de naipes de Fournier .........................;1885;Socorro mutuo ..... , ..............;Idem ...........;ÁLAVA;120;;;;121
-Agrupación Socialista ...................... : ....;1902;Política de partido........ , .......;Idem ............;ÁLAVA;46;;;;46
-Juventud Socialista.......................... : ...;1904;Idem...........................;Idem .. , ........;;104;;;;104
-Sociedad de Obreros Agricultores ................;1902;Mejorar las condiciones del trabajo.;Labasticla. ... ......;;14;;;;14
+NOMBRE;FECHA;OBJETO;LUGAR;PROVINCIA;S. Ordinarios;S. De mérito;S. Honorarios;S.Protectores;Socios Totales;Observaciones
+Asociación Católica de Obreros......... , .........;1888;Acción católica.. ·.. '...............;VITORIA ... …Gasteiz;ÁLAVA;520;;;108;628;
+Sociedad de Obreros Canteros y Marmolistas .....'.;1899;Mejorar las condiciones del trabajo.;Idem ...........;ÁLAVA;99;;;;99;Hello world
+Sociedad de Obreros Metalúrgicos ............... '.;1899;Idem;Idem ...........;ÁLAVA;100;;;;100;
+Sociedad de Obreros Panaderos...................;1901;Idem;Idem ...........;ÁLAVA;45;;;;45;
+Sociedad de Obreros Albañiles. .. : ...............;1903;Idem;Idem ...........;ÁLAVA;40;;;;40;
+Sociedad de Obreros Canteros Mamposteros... , ...;19aa03;Idem…09uf;Idem ...........;ÁLAVA;30;;;;30;
+Sociedad de Obreros Peones.... , ................ '.;1903;Idem;Idem ...........;ÁLAVA;60;;;;60;
+"Sociedad Tipográfica.......... , ........ "" .......";1904;Idem;Idem ...........;ÁLAVA;34;;;;34;
+Sociedad de Peluqueros Barberos.................;1904;Idem;Idem ...........;ÁLAVA;27;;;;27;
+Sociedad de Obreros Carpinteros .................;1904;Idem………………………;Idem ...........;;16;;;;16;
+Sociedad de Obreros Zapateros.. ........ '*' .......;1904;Idem;Idem ...........;ÁLAVA;20;;;;20;
+Sociedad de socorro á los enfermos de la Fábrica de naipes de Fournier .........................;1885;Socorro mutuo ..... , ..............;Idem ...........;ÁLAVA;120;;;;121;
+Agrupación Socialista ...................... : ....;1902;Política de partido........ , .......;Idem ............;ÁLAVA;46;;;;46;
+Juventud Socialista.......................... : ...;1904;Idem...........................;Idem .. , ........;;104;;;;104;
+Sociedad de Obreros Agricultores ................;1902;Mejorar las condiciones del trabajo.;Labasticla. ... ......;;14;;;;14;

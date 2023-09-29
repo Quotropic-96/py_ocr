@@ -1,31 +1,31 @@
-NOMBRE;FECHA;OBJETO;LUGAR;PROVINCIA;S. Ordinarios;S. De mérito;S. Honorarios;S.Protectores;Socios Totales
-Asociación Católica de Obreros;1888;Acción católica;Vitoria;ÁLAVA;520;;;108;628
-Sociedad de Obreros Canteros y Marmolistas;1899;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;99;;;;99
-Sociedad de Obreros Metalúrgicos;1899;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;100;;;;100
-Sociedad de Obreros Panaderos;1901;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;45;;;;45
-Sociedad de Obreros Albañiles;1903;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;40;;;;40
-Sociedad de Obreros Canteros Mamposteros;1903;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;30;;;;30
-Sociedad de Obreros Peones;1903;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;60;;;;60
-Sociedad Tipográfica;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;34;;;;34
-Sociedad de Peluqueros Barberos;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;27;;;;27
-Sociedad de Obreros Carpinteros;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;16;;;;16
-Sociedad de Obreros Zapateros;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;20;;;;20
-Sociedad de socorro á los enfermos de la Fábrica de naipes de Fournier;1885;Socorro mutuo;Vitoria;ÁLAVA;120;;;;121
-Agrupación Socialista;1902;Política de partido;Vitoria;ÁLAVA;46;;;;46
-Juventud Socialista;1904;Política de partido;Vitoria;ÁLAVA;104;;;;104
-Sociedad de Obreros Agricultores;1902;Mejorar las condiciones del trabajo;Labasticla;ÁLAVA;14;;;;14
-Asociación Católica de Obreros;1888;Acción católica;Vitoria Gasteiz;ÁLAVA;520;;;108;628
-Sociedad de Obreros Canteros y Marmolistas;1899;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;99;;;;99
-Sociedad de Obreros Metalúrgicos;1899;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;100;;;;100
-Sociedad de Obreros Panaderos;1901;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;45;;;;45
-Sociedad de Obreros Albañiles;1903;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;40;;;;40
-Sociedad de Obreros Canteros Mamposteros;0;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;30;;;;30
-Sociedad de Obreros Peones;1903;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;60;;;;60
-Sociedad Tipográfica;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;34;;;;34
-Sociedad de Peluqueros Barberos;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;27;;;;27
-Sociedad de Obreros Carpinteros;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;;16;;;;16
-Sociedad de Obreros Zapateros;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;20;;;;20
-Sociedad de socorro á los enfermos de la Fábrica de naipes de Fournier;1885;Socorro mutuo;Vitoria Gasteiz;ÁLAVA;120;;;;121
-Agrupación Socialista;1902;Política de partido;Vitoria Gasteiz;ÁLAVA;46;;;;46
-Juventud Socialista;1904;Política de partido;Vitoria Gasteiz;;104;;;;104
-Sociedad de Obreros Agricultores;1902;Mejorar las condiciones del trabajo;Labasticla;;14;;;;14
+NOMBRE;FECHA;OBJETO;LUGAR;PROVINCIA;S. Ordinarios;S. De mérito;S. Honorarios;S.Protectores;Socios Totales;Observaciones
+Asociación Católica de Obreros;1888;Acción católica;Vitoria;ÁLAVA;520;;;108.0;628;
+Sociedad de Obreros Canteros y Marmolistas;1899;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;99;;;;99;
+Sociedad de Obreros Metalúrgicos;1899;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;100;;;;100;
+Sociedad de Obreros Panaderos;1901;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;45;;;;45;
+Sociedad de Obreros Albañiles;1903;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;40;;;;40;
+Sociedad de Obreros Canteros Mamposteros;1903;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;30;;;;30;
+Sociedad de Obreros Peones;1903;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;60;;;;60;
+Sociedad Tipográfica;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;34;;;;34;
+Sociedad de Peluqueros Barberos;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;27;;;;27;
+Sociedad de Obreros Carpinteros;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;16;;;;16;
+Sociedad de Obreros Zapateros;1904;Mejorar las condiciones del trabajo;Vitoria;ÁLAVA;20;;;;20;
+Sociedad de socorro á los enfermos de la Fábrica de naipes de Fournier;1885;Socorro mutuo;Vitoria;ÁLAVA;120;;;;121;
+Agrupación Socialista;1902;Política de partido;Vitoria;ÁLAVA;46;;;;46;
+Juventud Socialista;1904;Política de partido;Vitoria;ÁLAVA;104;;;;104;
+Sociedad de Obreros Agricultores;1902;Mejorar las condiciones del trabajo;Labasticla;ÁLAVA;14;;;;14;
+Asociación Católica de Obreros;1888;Acción católica;Vitoria Gasteiz;ÁLAVA;520;;;108.0;628;
+Sociedad de Obreros Canteros y Marmolistas;1899;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;99;;;;99;Hello world
+Sociedad de Obreros Metalúrgicos;1899;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;100;;;;100;
+Sociedad de Obreros Panaderos;1901;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;45;;;;45;
+Sociedad de Obreros Albañiles;1903;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;40;;;;40;
+Sociedad de Obreros Canteros Mamposteros;0;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;30;;;;30;
+Sociedad de Obreros Peones;1903;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;60;;;;60;
+Sociedad Tipográfica;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;34;;;;34;
+Sociedad de Peluqueros Barberos;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;27;;;;27;
+Sociedad de Obreros Carpinteros;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;;16;;;;16;
+Sociedad de Obreros Zapateros;1904;Mejorar las condiciones del trabajo;Vitoria Gasteiz;ÁLAVA;20;;;;20;
+Sociedad de socorro á los enfermos de la Fábrica de naipes de Fournier;1885;Socorro mutuo;Vitoria Gasteiz;ÁLAVA;120;;;;121;
+Agrupación Socialista;1902;Política de partido;Vitoria Gasteiz;ÁLAVA;46;;;;46;
+Juventud Socialista;1904;Política de partido;Vitoria Gasteiz;;104;;;;104;
+Sociedad de Obreros Agricultores;1902;Mejorar las condiciones del trabajo;Labasticla;;14;;;;14;

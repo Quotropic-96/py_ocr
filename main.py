@@ -132,11 +132,57 @@ def clean_dataframe(df, filename):
         
         return cell_value
     
+    def parse_members(cell_value, idx):
+        """
+        Parses columns with numeric values:
+        1. Ensure that they contain only numbers or are empty.
+        """
+        # print(f'{filename} | {idx+2} | {cell_value}')
+        try:
+            
+            if isinstance(cell_value, (int, str)) and cell_value.isdigit():
+                return int(cell_value)
+            elif math.isnan(cell_value) or cell_value == '' or cell_value == ' ':
+                return math.nan
+            else:
+                line_number = idx + 2  # Adjusting for 0-based index and header
+                logger.error(f"File: {filename} | Line: {line_number} | Error parsing member '{cell_value}': Expected a number, found '{type(cell_value)}' instead.")
+                return math.nan  # Convert invalid numbers to NaN for consistent data type in the column
+        except Exception as e:
+            line_number = idx + 2  # Adjusting for 0-based index and header
+            logger.error(f"File: {filename} | Line: {line_number} | Error parsing number '{cell_value}': {e}")
+            return math.nan
+        
+    def validate_members(df, filename, logger):
+        """
+        Validates if the sum of the first four member columns matches the total in the fifth column.
+        
+        Args:
+        - df (DataFrame): The dataframe containing the data.
+        - filename (str): The name of the source file for logging purposes.
+        - logger (Logger): The logger object for logging errors.
 
-    # Cleaning the name column
+        Returns:
+        - None
+        """
+        # Compare the sum of the previous members columns with the total members col
+        computed_sums = df[df.columns[5:9]].sum(axis=1).astype(int)
+        discrepancies = computed_sums != df[df.columns[9]]
+
+        for idx in discrepancies[discrepancies].index:
+            line_number = idx + 2  # Adjusting for 0-based index and header
+            actual_sum = computed_sums[idx]
+            total_members_value = df.iloc[idx, 9]
+            
+            if actual_sum != total_members_value:
+                logger.error(f"File: {filename} | Line: {line_number} | "
+                            f"Error validating members sum. Total members column ({actual_sum}) type {type(actual_sum)} does "
+                            f"not match total members column ({total_members_value}) type {type(total_members_value)}.")
+        
+    # Parsing the name column
     df[df.columns[0]] = [parse_name(value, idx) for idx, value in enumerate(df[df.columns[0]])]
 
-    # Cleaning the date column
+    # Parsing the date column
     df[df.columns[1]] = [parse_date(value, idx) for idx, value in enumerate(df[df.columns[1]])]
 
     # Parsing the object column
@@ -148,6 +194,12 @@ def clean_dataframe(df, filename):
     # Parsing the state column
     df[df.columns[4]] = [parse_state(value, idx) for idx, value in enumerate(df[df.columns[4]])]
 
+    # Parsing members
+    for col_idx in range(5, 10):
+        df[df.columns[col_idx]] = [parse_members(val, idx) for idx, val in enumerate(df[df.columns[col_idx]])]
+    
+    # Validate members sum
+    validate_members(df, filename, logger)
 
     return df
 
