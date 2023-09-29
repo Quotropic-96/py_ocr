@@ -1,18 +1,21 @@
 import pandas as pd
 import os
+import math
 import logging
 
 # Checking variables
-LETTERS_AND_SPACE = "abcdefghijklmnopqrstuvwxyzáéíóúñüABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑÜ "
-ALLOWED_CHARS_PLACE = LETTERS_AND_SPACE + '()'
+LETTERS = "abcdefghijklmnopqrstuvwxyzáéíóúñüABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÑÜ"
+SPACE = " "
+PARETHESES = "()"
+
+ALLOWED_CHARS_NAME = LETTERS + SPACE
+ALLOWED_CHARS_OBJECT = LETTERS + SPACE
+ALLOWED_CHARS_PLACE = LETTERS + SPACE + PARETHESES
+ALLOWED_CHARS_STATE = LETTERS
 
 # Initialize the logger
 logging.basicConfig(level=logging.ERROR, format='%(message)s')
 logger = logging.getLogger(__name__)
-
-
-
-
 
 def clean_dataframe(df, filename):
     cleaned_objects = []
@@ -24,7 +27,7 @@ def clean_dataframe(df, filename):
       """
       try:
         if isinstance(cell_value, str):  # Check if the value is a string
-            return ''.join(c for c in cell_value if c in LETTERS_AND_SPACE).strip()
+            return ''.join(c for c in cell_value if c in ALLOWED_CHARS_NAME).strip()
       except Exception as e:
           line_number = idx + 2  # Adjusting for 0-based index and header
           logger.error(f"File: {filename} | Line: {line_number} | Error parsing name '{cell_value}': {e}")
@@ -59,7 +62,7 @@ def clean_dataframe(df, filename):
             
                 else:
                     # Remove characters that aren't Spanish letters
-                    clean_value = ''.join(c for c in cell_value if c in LETTERS_AND_SPACE).strip()
+                    clean_value = ''.join(c for c in cell_value if c in ALLOWED_CHARS_OBJECT).strip()
                     cleaned_objects.append(clean_value)
                     return clean_value
                 
@@ -100,18 +103,50 @@ def clean_dataframe(df, filename):
         cleaned_places.append(cell_value)  # If there's an error, store the original value
         return cell_value
 
+    def parse_state(cell_value, idx):
+        """
+        Parses the next column:
+        1. Check that the cell is not empty.
+        2. Allow only uppercase letters.
+        3. If the value contains lowercase letters, convert them to uppercase.
+        """
+        try:
+            if isinstance(cell_value, str):  # Check if the value is a string
+                if isinstance(cell_value, str):
+                    # Check if the value only contains capital letters
+                    if all(c.isupper() or c.isspace() for c in cell_value):
+                        return cell_value
+                    else:
+                        logger.error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Unexpected character. Expected only capital letters.")
+                else:
+                    logger.error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Expected string but found {type(cell_value)}.")
+
+            if cell_value is None or math.isnan(cell_value):
+                line_number = idx + 2  # Adjusting for 0-based index and header
+                logger.error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Cell is empty")
+                return cell_value
+                    
+        except Exception as e:
+            line_number = idx + 2  # Adjusting for 0-based index and header
+            logger.error(f"File: {filename} | Line: {line_number} | Error parsing state '{cell_value}': {e}")
+        
+        return cell_value
+    
+
     # Cleaning the name column
-    df[df.columns[0]] = df[df.columns[0]].apply(lambda x: parse_name(x, df.index[df[df.columns[0]] == x].tolist()[0]))
+    df[df.columns[0]] = [parse_name(value, idx) for idx, value in enumerate(df[df.columns[0]])]
 
     # Cleaning the date column
-    df[df.columns[1]] = df[df.columns[1]].apply(lambda x: parse_date(x, df.index[df[df.columns[1]] == x].tolist()[0]))
+    df[df.columns[1]] = [parse_date(value, idx) for idx, value in enumerate(df[df.columns[1]])]
 
     # Parsing the object column
-    df[df.columns[2]] = df[df.columns[2]].apply(lambda x: parse_object(x, df.index[df[df.columns[2]] == x].tolist()[0]))
+    df[df.columns[2]] = [parse_object(value, idx) for idx, value in enumerate(df[df.columns[2]])]
 
     # Parsing the place column
-    df[df.columns[3]] = df[df.columns[3]].apply(lambda x: parse_place(x, df.index[df[df.columns[3]] == x].tolist()[0]))
+    df[df.columns[3]] = [parse_place(value, idx) for idx, value in enumerate(df[df.columns[3]])]
 
+    # Parsing the state column
+    df[df.columns[4]] = [parse_state(value, idx) for idx, value in enumerate(df[df.columns[4]])]
 
 
     return df
