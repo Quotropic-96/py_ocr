@@ -51,6 +51,8 @@ def clean_dataframe(df, filename):
         Checks if the cell value is an integer between 1700 and 1904. 
         """
         try:
+            if cell_value == '?':
+                return cell_value
             if 1700 <= int(cell_value) <= 1904:
                 return int(cell_value)
             else:
@@ -58,7 +60,7 @@ def clean_dataframe(df, filename):
         except Exception as e:
             line_number = idx + 2  # Adjusting for 0-based index and header
             log_error(f"File: {filename} | Line: {line_number} | Error parsing date '{cell_value}': {e}")
-            return 0
+            return cell_value
         
     def parse_object(cell_value, idx):
         """
@@ -158,7 +160,7 @@ def clean_dataframe(df, filename):
             elif isinstance(cell_value, (int)) and cell_value.isdigit():
                 return int(cell_value)
             elif math.isnan(cell_value) or cell_value == '' or cell_value == ' ':
-                return math.nan
+                return 0
             else:
                 line_number = idx + 2  # Adjusting for 0-based index and header
                 log_error(f"File: {filename} | Line: {line_number} | Error parsing member '{cell_value}': Expected a number, found '{type(cell_value)}' instead.")
