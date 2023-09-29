@@ -13,11 +13,24 @@ ALLOWED_CHARS_OBJECT = LETTERS + SPACE
 ALLOWED_CHARS_PLACE = LETTERS + SPACE + PARETHESES
 ALLOWED_CHARS_STATE = LETTERS
 
+file_count = 0
+line_count = 0
+error_count = 0
+
 # Initialize the logger
 logging.basicConfig(level=logging.ERROR, format='%(message)s')
 logger = logging.getLogger(__name__)
 
+# Custom function to log error and increment error count
+def log_error(message):
+    global error_count
+    logger.error(message)
+    error_count += 1
+
 def clean_dataframe(df, filename):
+    global line_count
+    line_count += len(df)
+
     cleaned_objects = []
     cleaned_places = []
     
@@ -30,7 +43,7 @@ def clean_dataframe(df, filename):
             return ''.join(c for c in cell_value if c in ALLOWED_CHARS_NAME).strip()
       except Exception as e:
           line_number = idx + 2  # Adjusting for 0-based index and header
-          logger.error(f"File: {filename} | Line: {line_number} | Error parsing name '{cell_value}': {e}")
+          log_error(f"File: {filename} | Line: {line_number} | Error parsing name '{cell_value}': {e}")
           return cell_value  # Return the original value if not a string
     
     def parse_date(cell_value, idx):
@@ -44,7 +57,7 @@ def clean_dataframe(df, filename):
               raise ValueError(f"Year out of range {cell_value}") 
         except Exception as e:
             line_number = idx + 2  # Adjusting for 0-based index and header
-            logger.error(f"File: {filename} | Line: {line_number} | Error parsing date '{cell_value}': {e}")
+            log_error(f"File: {filename} | Line: {line_number} | Error parsing date '{cell_value}': {e}")
             return 0
         
     def parse_object(cell_value, idx):
@@ -68,7 +81,7 @@ def clean_dataframe(df, filename):
                 
         except Exception as e:
             line_number = idx + 2  # Adjusting for 0-based index and header
-            logger.error(f"File: {filename} | Line: {line_number} | Error parsing object '{cell_value}': {e}")
+            log_error(f"File: {filename} | Line: {line_number} | Error parsing object '{cell_value}': {e}")
         return cell_value  # Return the original value if not properly parsed
 
     def parse_place(cell_value, idx):
@@ -98,7 +111,7 @@ def clean_dataframe(df, filename):
                     
         except Exception as e:
             line_number = idx + 2  # Adjusting for 0-based index and header
-            logger.error(f"File: {filename} | Line: {line_number} | Error parsing place '{cell_value}': {e}")
+            log_error(f"File: {filename} | Line: {line_number} | Error parsing place '{cell_value}': {e}")
         
         cleaned_places.append(cell_value)  # If there's an error, store the original value
         return cell_value
@@ -117,18 +130,18 @@ def clean_dataframe(df, filename):
                     if all(c.isupper() or c.isspace() for c in cell_value):
                         return cell_value
                     else:
-                        logger.error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Unexpected character. Expected only capital letters.")
+                        log_error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Unexpected character. Expected only capital letters.")
                 else:
-                    logger.error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Expected string but found {type(cell_value)}.")
+                    log_error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Expected string but found {type(cell_value)}.")
 
             if cell_value is None or math.isnan(cell_value):
                 line_number = idx + 2  # Adjusting for 0-based index and header
-                logger.error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Cell is empty")
+                log_error(f"File: {filename} | Line: {line_number} | Error parsing state {cell_value}: Cell is empty")
                 return cell_value
                     
         except Exception as e:
             line_number = idx + 2  # Adjusting for 0-based index and header
-            logger.error(f"File: {filename} | Line: {line_number} | Error parsing state '{cell_value}': {e}")
+            log_error(f"File: {filename} | Line: {line_number} | Error parsing state '{cell_value}': {e}")
         
         return cell_value
     
@@ -146,11 +159,11 @@ def clean_dataframe(df, filename):
                 return math.nan
             else:
                 line_number = idx + 2  # Adjusting for 0-based index and header
-                logger.error(f"File: {filename} | Line: {line_number} | Error parsing member '{cell_value}': Expected a number, found '{type(cell_value)}' instead.")
+                log_error(f"File: {filename} | Line: {line_number} | Error parsing member '{cell_value}': Expected a number, found '{type(cell_value)}' instead.")
                 return math.nan  # Convert invalid numbers to NaN for consistent data type in the column
         except Exception as e:
             line_number = idx + 2  # Adjusting for 0-based index and header
-            logger.error(f"File: {filename} | Line: {line_number} | Error parsing number '{cell_value}': {e}")
+            log_error(f"File: {filename} | Line: {line_number} | Error parsing number '{cell_value}': {e}")
             return math.nan
         
     def validate_members(df, filename, logger):
@@ -175,7 +188,7 @@ def clean_dataframe(df, filename):
             total_members_value = df.iloc[idx, 9]
             
             if actual_sum != total_members_value:
-                logger.error(f"File: {filename} | Line: {line_number} | "
+                log_error(f"File: {filename} | Line: {line_number} | "
                             f"Error validating members sum. Total members column ({actual_sum}) type {type(actual_sum)} does "
                             f"not match total members column ({total_members_value}) type {type(total_members_value)}.")
         
@@ -210,8 +223,11 @@ def merge_csv_files(input_dir):
     """
     list_of_dfs = []
 
+    global file_count
+
     for filename in os.listdir(input_dir):
         if filename.endswith('.csv'):
+            file_count += 1
             filepath = os.path.join(input_dir, filename)
             df = pd.read_csv(filepath, delimiter=';', dtype=str)
             cleaned_df = clean_dataframe(df, filename)
@@ -242,8 +258,11 @@ def main():
               handler.close()
           logger.handlers.clear()
     except Exception as e:
-        logger.error(f"Unexpected error: {e}")
+        log_error(f"Unexpected error: {e}")
 
 
 if __name__ == '__main__':
     main()
+    print(f'{file_count} files processed')
+    print(f'{line_count} lines processed')
+    print(f'{error_count} errors found')
