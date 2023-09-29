@@ -259,7 +259,7 @@ def main():
       merged_df = merge_csv_files(input_dir)
 
       # Now save the cleaned and merged data
-      merged_df.to_csv(os.path.join(output_dir, "merged_output.csv"), index=False, sep=';')
+      merged_df.to_csv(os.path.join(output_dir, "IRS_estadística_asociacionobrera_nosocios_1904.csv"), index=False, sep=';')
       # Print the log messages
       if logger.handlers:
           for handler in logger.handlers:
